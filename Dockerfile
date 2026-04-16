@@ -49,6 +49,9 @@ RUN composer install \
     --no-interaction \
     --prefer-dist
 
+# Run TastyIgniter setup to initialize the database and application
+RUN php artisan setup --no-interaction
+
 # Set correct permissions for Laravel storage and cache
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
