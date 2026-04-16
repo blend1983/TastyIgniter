@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     unzip \
     git \
+    cron \
     && rm -rf /var/lib/apt/lists/*
 
 # Install required PHP extensions
@@ -59,6 +60,12 @@ RUN mkdir -p storage/framework/{sessions,views,cache} \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
+# Set up the Laravel scheduler cron job (runs every minute as www-data)
+RUN echo "* * * * * www-data php /app/artisan schedule:run >> /var/log/scheduler.log 2>&1" \
+    > /etc/cron.d/tastyigniter-scheduler \
+    && chmod 0644 /etc/cron.d/tastyigniter-scheduler \
+    && crontab /etc/cron.d/tastyigniter-scheduler
+
 # Expose port 80 (FrankenPHP default)
 EXPOSE 80
 
@@ -66,4 +73,5 @@ EXPOSE 80
 ENV SERVER_NAME=":80"
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+# Start cron in the background, then hand off to FrankenPHP
+CMD ["sh", "-c", "cron && frankenphp run --config /etc/caddy/Caddyfile"]
