@@ -32,9 +32,7 @@ RUN docker-php-ext-configure intl \
         bcmath \
         opcache \
         gd \
-        exif \
-        json \
-        tokenizer
+        exif
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
