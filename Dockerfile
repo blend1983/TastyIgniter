@@ -50,9 +50,6 @@ RUN composer install \
     --no-interaction \
     --prefer-dist
 
-# Run database migrations at build time
-RUN php artisan migrate --force
-
 # Set correct permissions for Laravel storage and cache
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
