@@ -70,5 +70,5 @@ EXPOSE 80
 ENV SERVER_NAME=":80"
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
-# Start cron in the background, then hand off to FrankenPHP
-CMD ["sh", "-c", "cron && frankenphp run --config /etc/caddy/Caddyfile"]
+# Start FrankenPHP (crontab is configured but cron daemon is not started here)
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
