@@ -2,7 +2,7 @@
 set -e
 
 echo "Running Laravel migrations..."
-php /app/artisan migrate --force
+php /app/artisan migrate --force || true
 
 echo "Starting FrankenPHP..."
 exec frankenphp run --config /etc/caddy/Caddyfile
