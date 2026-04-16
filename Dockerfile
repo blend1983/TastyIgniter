@@ -26,7 +26,6 @@ RUN docker-php-ext-configure intl \
         xml \
         dom \
         fileinfo \
-        tokenizer \
         ctype \
         zip \
         bcmath \
