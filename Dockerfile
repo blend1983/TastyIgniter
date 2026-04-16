@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
 
 # Install required PHP extensions
 RUN docker-php-ext-configure intl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
         intl \
         pdo \
@@ -29,7 +30,11 @@ RUN docker-php-ext-configure intl \
         ctype \
         zip \
         bcmath \
-        opcache
+        opcache \
+        gd \
+        exif \
+        json \
+        tokenizer
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
