@@ -50,6 +50,9 @@ RUN composer install \
     --no-interaction \
     --prefer-dist
 
+# Run database migrations at build time
+RUN php artisan migrate --force
+
 # Set correct permissions for Laravel storage and cache
 RUN mkdir -p storage/framework/{sessions,views,cache} \
     && mkdir -p storage/logs \
@@ -74,5 +77,5 @@ EXPOSE 80
 ENV SERVER_NAME=":80"
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
-# Run migrations then start FrankenPHP
+# Start FrankenPHP
 CMD ["/usr/local/bin/docker-entrypoint.sh"]
