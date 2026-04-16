@@ -63,6 +63,10 @@ RUN echo "* * * * * www-data php /app/artisan schedule:run >> /var/log/scheduler
     && chmod 0644 /etc/cron.d/tastyigniter-scheduler \
     && crontab /etc/cron.d/tastyigniter-scheduler
 
+# Copy and set up the entrypoint script
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 # Expose port 80 (FrankenPHP default)
 EXPOSE 80
 
@@ -70,5 +74,5 @@ EXPOSE 80
 ENV SERVER_NAME=":80"
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
 
-# Start FrankenPHP (crontab is configured but cron daemon is not started here)
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+# Run migrations then start FrankenPHP
+CMD ["/usr/local/bin/docker-entrypoint.sh"]
