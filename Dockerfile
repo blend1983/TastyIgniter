@@ -4,6 +4,7 @@ FROM dunglas/frankenphp:latest-php8.3
 RUN apt-get update && apt-get install -y \
     libicu-dev \
     libcurl4-openssl-dev \
+    libssl-dev \
     libxml2-dev \
     libzip-dev \
     libpng-dev \
